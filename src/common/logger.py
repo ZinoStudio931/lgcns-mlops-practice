@@ -34,9 +34,11 @@ def get_file_handler(
     )
     file_handler.suffix = "logs-%Y%m%d"
     # TODO: 파일 핸들러의 기본 수준을 INFO로 설정
-    
+    file_handler.setLevel(logging.INFO)
+
     # TODO: 파일 핸들러의 포맷을 FILE_HANDLER_FORMAT으로 설정
-    
+    file_handler.setFormatter(logging.Formatter(FILE_HANDLER_FORMAT))
+
     return file_handler
 
 
@@ -56,15 +58,17 @@ def set_logger(log_path: str = LOG_FILEPATH) -> logging.Logger:
     )
 
     logger = logging.getLogger("rich")
-    
+
     # TODO: 로거의 기본 수준을 DEBUG 설정
-    
+    logger.setLevel(logging.DEBUG)
+
     # TODO: 기본 로거에 위에서 만든 파일 핸들러를 추가
-    
+    logger.addHandler(get_file_handler(log_path))
+
     return logger
 
 
-def handle_exception(exc_type, exc_value, exc_traceback):
+def handle_exception(exc_type, exc_value, exc_traceback):  # ***
     """Exception을 처리하는 함수입니다.
     이미 선언된 `logger`가 있을 때, 해당 `logger` 정보를 가져와서
     발생하는 Exception을 처리합니다.
